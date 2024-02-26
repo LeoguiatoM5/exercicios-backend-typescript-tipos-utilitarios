@@ -6,10 +6,23 @@ type Conn = {
     dbname: string
 }
 
-const conexao = (dados: Conn) => {
+type Conexao = {
+    driver: string,
+    url: string
+}
+
+const conexao = (dados: Conn): Readonly<Conexao> => {
     const { username, password, host, port, dbname } = dados;
-    return {
+    return Object.freeze({
         driver: 'postgres',
         url: `postgresql://${username}:${password}@${host}:${port}/${dbname}`
-    };
+    });
 }
+
+const conecta = conexao({
+    username: 'Leonardo',
+    password: '1234',
+    host: 'localhost',
+    port: '5432',
+    dbname: 'principal'
+});
